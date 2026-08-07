@@ -39,25 +39,30 @@ export default function CustomCursor() {
     document.addEventListener('mouseleave', onLeave);
 
     const tick = () => {
-      s.dx += (s.tx - s.dx) * 0.45;
-      s.dy += (s.ty - s.dy) * 0.45;
-      s.rx += (s.tx - s.rx) * 0.18;
-      s.ry += (s.ty - s.ry) * 0.18;
+      // Dot follows quickly (snappy)
+      s.dx += (s.tx - s.dx) * 0.5;
+      s.dy += (s.ty - s.dy) * 0.5;
+      // Ring trails smoothly (eased)
+      s.rx += (s.tx - s.rx) * 0.14;
+      s.ry += (s.ty - s.ry) * 0.14;
 
       const dot = dotRef.current;
       const ring = ringRef.current;
       if (dot) {
         dot.style.transform = `translate3d(${s.dx - 4}px, ${s.dy - 4}px, 0)`;
         dot.style.opacity = s.visible ? '1' : '0';
-        dot.style.scale = s.clicking ? '0.5' : '1';
+        dot.style.scale = s.clicking ? '0.4' : '1';
       }
       if (ring) {
-        const size = s.hovering ? 56 : 40;
+        const size = s.hovering ? 52 : 34;
         ring.style.transform = `translate3d(${s.rx - size / 2}px, ${s.ry - size / 2}px, 0)`;
         ring.style.width = `${size}px`;
         ring.style.height = `${size}px`;
         ring.style.opacity = s.visible ? '1' : '0';
-        ring.style.borderColor = s.hovering ? 'rgba(79,142,247,0.6)' : 'rgba(255,255,255,0.3)';
+        ring.style.borderColor = s.hovering
+          ? 'rgba(79,142,247,0.7)'
+          : 'rgba(255,255,255,0.25)';
+        ring.style.borderWidth = s.hovering ? '1.5px' : '1px';
       }
       raf = requestAnimationFrame(tick);
     };
@@ -77,14 +82,16 @@ export default function CustomCursor() {
       <div
         ref={dotRef}
         className="fixed top-0 left-0 z-[9999] pointer-events-none hidden md:block w-2 h-2 rounded-full bg-white will-change-transform"
-        style={{ transition: 'opacity 0.2s, scale 0.15s' }}
+        style={{ transition: 'opacity 0.25s ease, scale 0.18s ease' }}
       />
       <div
         ref={ringRef}
         className="fixed top-0 left-0 z-[9998] pointer-events-none hidden md:block rounded-full border will-change-transform"
         style={{
-          width: '40px', height: '40px',
-          transition: 'opacity 0.2s, border-color 0.2s, width 0.2s, height 0.2s',
+          width: '34px',
+          height: '34px',
+          transition:
+            'opacity 0.3s ease, border-color 0.3s ease, width 0.25s ease, height 0.25s ease, border-width 0.25s ease',
         }}
       />
     </>
