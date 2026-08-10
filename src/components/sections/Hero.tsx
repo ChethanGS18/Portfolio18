@@ -138,7 +138,7 @@ export default function Hero() {
           {/* Foreground title: Full Stack Developer */}
           <motion.div variants={item} className="mb-10 sm:mb-12">
             <motion.h2
-              className="font-bold tracking-[-0.05em] leading-[0.9] text-[clamp(3rem,11vw,8rem)] bg-clip-text text-transparent"
+              className="font-bold tracking-[-0.04em] leading-[0.9] text-[clamp(2rem,7vw,5rem)] whitespace-nowrap bg-clip-text text-transparent"
               style={{
                 backgroundImage: 'linear-gradient(135deg, #1E3A8A 0%, #60A5FA 100%)',
                 textShadow: '0 12px 48px rgba(79,142,247,0.28)',
